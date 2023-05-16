@@ -257,7 +257,7 @@ class API
      */
     public function fetch($params, $path, $verb = "GET", $authenticate = false)
     {
-        $path = sprintf("%s/%s/%s", static::$basePath, $this->realmId, $path);
+        $path = sprintf("%s/%s/%s", rtrim(static::$basePath,"/"), $this->realmId, ltrim($path,"/"));
         $data = is_array($params) ? http_build_query($params) : $params;
 
         $headers = ['Accept: application/json'];
@@ -288,11 +288,19 @@ class API
         ));
 
         $apiUrl = static::$urls[static::$env]['api'] . $path;
+
         $r = @file_get_contents($apiUrl, false, $context);
         $r = json_decode($r, true);
 
+        // some odd reason QB returned with partial caps sometimes
         if(!empty($r['Fault']['Error'])){
             $msg = "{$r['Fault']['Error'][0]['Message']}: {$r['Fault']['Error'][0]['Detail']}";
+            throw new Exception($msg);
+        }
+
+        // other times, the error response is all lowercase
+        if(!empty($r['fault']['error'])){
+            $msg = "{$r['fault']['error'][0]['message']}: {$r['fault']['error'][0]['detail']}";
             throw new Exception($msg);
         }
 

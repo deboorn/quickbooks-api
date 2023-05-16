@@ -138,12 +138,14 @@ class API
     }
 
     /**
-     * @param string $refreshToken
+     * @param string|null $refreshToken
      * @return mixed
      * @throws Exception
      */
-    public function getRefreshToken(string $refreshToken)
+    public function refreshToken(string $refreshToken = null)
     {
+        $refreshToken = $refreshToken ?? $this->token['refresh_token'];
+
         $r = $this->fetchAuth(static::$endpoints['token_endpoint'], [
             "grant_type"    => "refresh_token",
             "refresh_token" => $refreshToken,
@@ -153,7 +155,7 @@ class API
             throw new Exception('Invalid Token Response: ' . print_r($r, true));
         }
 
-        return $r;
+        return $this->token = $r;
     }
 
     /**

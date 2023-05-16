@@ -227,7 +227,7 @@ class API
      */
     public function post($data, $path)
     {
-        return $this->fetch(json_encode($data), $path, 'POST', true);
+        return $this->fetch($data, $path, 'POST', true);
     }
 
     /**

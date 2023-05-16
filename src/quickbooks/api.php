@@ -45,6 +45,8 @@ class API
         ],
     ];
 
+    public static $basePath = '/v3/company';
+
     /**
      * @var string
      */
@@ -255,8 +257,7 @@ class API
      */
     public function fetch($params, $path, $verb = "GET", $authenticate = false)
     {
-        $path .= "fake";
-
+        $path = sprintf("%s/%s/%s", static::$basePath, $this->realmId, $path);
         $data = is_array($params) ? http_build_query($params) : $params;
 
         $headers = ['Accept: application/json'];

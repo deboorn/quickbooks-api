@@ -51,8 +51,12 @@ $qb->refreshToken();
 // set realm id (set realm id)
 $ab->setRealmId($realmId);
 
-// query quickbooks
-$r = $qb->get('/v3/company/4620816365220902560/companyinfo/4620816365220902560');
+// get quickbooks endpoint (see api class)
+$r = $qb->get(string $endpoint, array $params = null);
+var_dump($r);
+
+// post quickbooks endpoint (see api class)
+$r = $qb->post(array $data, string $endpoint);
 var_dump($r);
 
 

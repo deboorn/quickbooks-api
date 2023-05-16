@@ -69,7 +69,7 @@ class API
     /**
      * @var string|mixed|null
      */
-    public string $realmId;
+    public $realmId;
     /**
      * @var mixed|null
      */
@@ -99,7 +99,7 @@ class API
      * @param string $secret
      * @param $token
      * @param $realmId
-     * @param string $env
+     * @param $env
      * @return API
      * @throws Exception
      */
@@ -155,7 +155,9 @@ class API
             throw new Exception('Invalid Token Response: ' . print_r($r, true));
         }
 
-        return $this->token = $r;
+        $this->token = $r;
+        $this->created_at = time();
+        return $this->token;
     }
 
     /**
@@ -176,7 +178,10 @@ class API
             throw new Exception('Invalid Token Response: ' . print_r($r, true));
         }
 
-        return $r;
+        $this->token = $r;
+        $this->token['created_at'] = time();
+
+        return $this->token;
     }
 
     /**

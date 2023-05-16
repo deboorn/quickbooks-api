@@ -158,7 +158,7 @@ class API
         }
 
         $this->token = $r;
-        $this->created_at = time();
+        $this->token['created_at'] = time();
         return $this->token;
     }
 
